@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC  
+      "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"  
+      "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+	<definition name="base.definition" template="/WEB-INF/layouts/base.jsp">
+		<put-attribute name="title" value="Retrieve and Rank Refinement"/>
+		<put-attribute name="header" value="/WEB-INF/fragments/_header.jsp"/>
+		<put-attribute name="body" value=""/>
+	</definition>
+	
+	<definition name="resp.base" template="/WEB-INF/layouts/resp_base.jsp">
+		<put-attribute name="title" value="Retrieve and Rank Refinement"/>
+		<put-attribute name="header" value="/WEB-INF/fragments/_header.jsp"/>
+		<put-attribute name="body" value=""/>
+		<put-attribute name="head" value=""/>
+		<put-attribute name="modal" value=""/>
+	</definition>
+	
+	<definition name="index" extends="base.definition">
+		<put-attribute name="body" value="/WEB-INF/fragments/_body.jsp"/>
+	</definition>
+	
+	<definition name="refinement" extends="base.definition">
+		<put-attribute name="body" value="/WEB-INF/fragments/_body_refinement.jsp"/>
+	</definition>
+	
+	<definition name="refinementResp" extends="resp.base">
+		<put-attribute name="header" value="/WEB-INF/fragments/_header_refinement.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/fragments/_body_refinement_resp.jsp"/>
+		<put-attribute name="head" value="/WEB-INF/fragments/_head_refinement.jsp"/>	
+		<put-attribute name="modal" value="/WEB-INF/fragments/_modal_refinement.jsp"/>
+	</definition>
+	
+	<definition name="statistics" extends="resp.base">
+		<put-attribute name="body" value="/WEB-INF/fragments/_body_statistics.jsp"/>
+		<put-attribute name="head" value="/WEB-INF/fragments/_head_statistic.jsp"/>
+	</definition>
+	
+	<definition name="admin" extends="resp.base">
+		<put-attribute name="body" value="/WEB-INF/fragments/_body_admin.jsp"/>
+		<put-attribute name="head" value="/WEB-INF/fragments/_head_admin.jsp"/>
+		<put-attribute name="modal" value="/WEB-INF/fragments/_modal_admin.jsp"/>
+	</definition>
+	
+	<definition name="accuracy" extends="base.definition">
+		<put-attribute name="body" value="/WEB-INF/fragments/_body_accuracy.jsp"/>
+	</definition>
+</tiles-definitions>

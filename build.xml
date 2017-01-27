@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project>
+
+<project basedir="." default="build" name="Retrieve and Rank Training">
+	<property environment="env" />
+	<property name="debuglevel" value="source,lines,vars" />
+	<property name="target" value="1.8" />
+	<property name="source" value="1.8" />
+	<condition property="ARCHIVE_DIR" value="${env.ARCHIVE_DIR}" else=".">
+		<isset property="env.ARCHIVE_DIR" />
+	</condition>
+	<property name="warname" value="RRTrainAcc.war" />
+	<path id="classpathDir">
+		<pathelement location="bin" />
+		<pathelement location="WebContent/WEB-INF/lib/cloudant-client-2.0.0.jar" />
+		<pathelement location="WebContent/WEB-INF/lib/gson-2.2.4.jar" />
+		<pathelement location="WebContent/WEB-INF/lib/solr-solrj-5.5.0.jar" />
+		<pathelement location="WebContent/WEB-INF/lib/java-sdk-2.0.0.jar"/>
+		<pathelement location="WebContent/WEB-INF/lib/httpclient-4.4.1.jar" />
+		<pathelement location="WebContent/WEB-INF/lib/httpcore-4.4.1.jar" />
+		<pathelement location="WebContent/WEB-INF/lib/opencsv-3.7.jar" />
+		<pathelement location="WebContent/WEB-INF/lib/commons-io-2.4.jar" />
+		<pathelement location="WebContent/WEB-INF/lib/commons-collections-3.2.jar" />
+		<pathelement location="WebContent/WEB-INF/lib/commons-beanutils-1.8.0.jar"/>
+    	<pathelement location="WebContent/WEB-INF/lib/commons-digester-2.0.jar"/>
+    	<pathelement location="WebContent/WEB-INF/lib/db2jcc4.jar"/>
+    	<pathelement location="WebContent/WEB-INF/lib/commons-logging-1.2.jar"/>
+    	<pathelement location="WebContent/WEB-INF/lib/slf4j-api-1.7.6.jar"/>
+    	<pathelement location="WebContent/WEB-INF/lib/jcl-over-slf4j-1.7.6.jar"/>
+		<pathelement location="WebContent/WEB-INF/lib/jstl-1.2.jar" />
+		<pathelement location="WebContent/WEB-INF/lib/spring-aop-4.3.0.RELEASE.jar" />
+		<pathelement location="WebContent/WEB-INF/lib/spring-beans-4.3.0.RELEASE.jar" />
+		<pathelement location="WebContent/WEB-INF/lib/spring-context-4.3.0.RELEASE.jar" />
+		<pathelement location="WebContent/WEB-INF/lib/spring-core-4.3.0.RELEASE.jar" />
+		<pathelement location="WebContent/WEB-INF/lib/spring-expression-4.3.0.RELEASE.jar" />
+		<pathelement location="WebContent/WEB-INF/lib/spring-web-4.3.0.RELEASE.jar" />
+		<pathelement location="WebContent/WEB-INF/lib/spring-webmvc-4.3.0.RELEASE.jar" />
+		<pathelement location="WebContent/WEB-INF/lib/tiles-api-3.0.5.jar"/>
+    	<pathelement location="WebContent/WEB-INF/lib/tiles-autotag-core-runtime-3.0.5.jar"/>
+    	<pathelement location="WebContent/WEB-INF/lib/tiles-compat-3.0.5.jar"/>
+    	<pathelement location="WebContent/WEB-INF/lib/tiles-core-3.0.5.jar"/>
+    	<pathelement location="WebContent/WEB-INF/lib/tiles-el-3.0.5.jar"/>
+    	<pathelement location="WebContent/WEB-INF/lib/tiles-extras-3.0.5.jar"/>
+    	<pathelement location="WebContent/WEB-INF/lib/tiles-freemarker-3.0.5.jar"/>
+    	<pathelement location="WebContent/WEB-INF/lib/tiles-jsp-3.0.5.jar"/>
+    	<pathelement location="WebContent/WEB-INF/lib/tiles-mvel-3.0.5.jar"/>
+    	<pathelement location="WebContent/WEB-INF/lib/tiles-ognl-3.0.5.jar"/>
+    	<pathelement location="WebContent/WEB-INF/lib/tiles-request-api-1.0.6.jar"/>
+    	<pathelement location="WebContent/WEB-INF/lib/tiles-request-freemarker-1.0.6.jar"/>
+    	<pathelement location="WebContent/WEB-INF/lib/tiles-request-jsp-1.0.6.jar"/>
+    	<pathelement location="WebContent/WEB-INF/lib/tiles-request-mustache-1.0.6.jar"/>
+    	<pathelement location="WebContent/WEB-INF/lib/tiles-request-servlet-1.0.6.jar"/>
+    	<pathelement location="WebContent/WEB-INF/lib/tiles-request-servlet-wildcard-1.0.6.jar"/>
+    	<pathelement location="WebContent/WEB-INF/lib/tiles-request-velocity-1.0.6.jar"/>
+    	<pathelement location="WebContent/WEB-INF/lib/tiles-servlet-3.0.5.jar"/>
+    	<pathelement location="WebContent/WEB-INF/lib/tiles-template-3.0.5.jar"/>
+    	<pathelement location="WebContent/WEB-INF/lib/tiles-velocity-3.0.5.jar"/>
+		<pathelement location="WebContent/WEB-INF/lib/validation-api-1.1.0.Final.jar" />
+		<pathelement location="WebContent/WEB-INF/lib/hibernate-validator-4.3.0.Final.jar" />
+		<pathelement location="WebContent/WEB-INF/lib/poi-3.15.jar" />
+		<pathelement location="WebContent/WEB-INF/lib/poi-ooxml-3.15.jar" />
+		<fileset dir="dep-jar">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	<target name="init">
+		<mkdir dir="bin" />
+	</target>
+	<target name="clean">
+		<delete dir="bin" />
+		<delete file="${ARCHIVE_DIR}/${warname}" />
+	</target>
+	<target name="build" depends="build-project,build-war" />
+	<target name="cleanall" depends="clean" />
+	<target name="build-project" depends="clean,init">
+		<copy todir="${ARCHIVE_DIR}">
+			<fileset file="manifest.yml" />
+		</copy>
+		<echo message="${ant.project.name}: ${ant.file}" />
+		<javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}" includeantruntime="false">
+			<src path="src" />
+			<classpath refid="classpathDir" />
+		</javac>
+	</target>
+
+	<target name="build-war" depends="build-project">
+		<war destfile="${ARCHIVE_DIR}/${warname}" webxml="WebContent/WEB-INF/web.xml">
+			<classes dir="bin" />
+			<fileset dir="WebContent">
+				<include name="**/*" />
+				<exclude name="**/*.class" />
+			</fileset>
+		</war>
+	</target>
+
+</project>

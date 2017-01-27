@@ -1,0 +1,12 @@
+applications:
+- path: RRTrainAcc.war
+  memory: 512M
+  instances: 1
+  domain: mybluemix.net
+  name: RRTrainAcc
+  host: RRTrainAcc
+  disk_quota: 1024M
+  services:
+  - Retrieve and Rank-ys
+  - chatWatsonApi-cloudantNoSQLDB
+  - dashDB-nk
